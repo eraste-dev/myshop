@@ -8,6 +8,7 @@
 export type * from './api'
 export type * from './catalog'
 export type * from './catalog-query'
+export type * from './home'
 export type * from './measure'
 export type * from './mocks'
 export type * from './shop'

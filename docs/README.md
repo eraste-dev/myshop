@@ -18,6 +18,7 @@ Site e-commerce de vente de pagnes (Côte d'Ivoire), inspiré de l'esthétique d
 | [specs/002-client-socle/spec.md](specs/002-client-socle/spec.md) | Spec du socle de la vitrine |
 | [specs/003-donnees-demo-et-api/spec.md](specs/003-donnees-demo-et-api/spec.md) | Spec des données de démonstration et de l'API du catalogue |
 | [specs/004-disposition-boutique/spec.md](specs/004-disposition-boutique/spec.md) | Spec de l'en-tête, du menu et du pied de page |
+| [specs/005-accueil/spec.md](specs/005-accueil/spec.md) | Spec de la page d'accueil |
 | [questions-ouvertes.md](questions-ouvertes.md) | Décisions à prendre avec la mère |
 
 **Statut** : définition du MVP. La stack technique sera décidée après validation de ce périmètre.

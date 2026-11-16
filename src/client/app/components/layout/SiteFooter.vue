@@ -33,7 +33,7 @@ const copyright = computed(() => copyrightLine(props.shopName, props.year))
   <footer class="border-t border-line bg-surface font-sans text-ink">
     <div class="mx-auto grid max-w-screen-2xl gap-10 px-4 py-12 md:grid-cols-[2fr_1fr_1fr] md:px-6">
       <div class="flex flex-col gap-3">
-        <p class="font-display text-3xl tracking-[var(--tracking-display)]">{{ shopName }}</p>
+        <p class="font-display text-3xl tracking-display">{{ shopName }}</p>
         <p v-if="tagline !== ''" class="max-w-sm text-ink-muted">{{ tagline }}</p>
       </div>
 

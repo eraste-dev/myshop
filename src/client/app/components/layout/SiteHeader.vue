@@ -53,7 +53,7 @@ const cart = computed(() => cartCountDisplay(props.cartCount))
 
       <NuxtLink
         to="/"
-        class="truncate px-2 text-center font-display text-2xl tracking-[var(--tracking-display)] text-ink md:text-3xl"
+        class="truncate px-2 text-center font-display text-2xl tracking-display text-ink md:text-3xl"
       >
         {{ shopName }}
       </NuxtLink>
