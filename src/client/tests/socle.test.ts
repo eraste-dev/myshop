@@ -52,7 +52,8 @@ describe('socle de la vitrine', () => {
 
   it('[CLI-6] déclare la langue française et un lien d’évitement', () => {
     const config = readFileSync(resolve(here, '../nuxt.config.ts'), 'utf8')
-    const layout = readFileSync(join(appDir, 'layouts/default.vue'), 'utf8')
+    // Le lien d'évitement et le repère `main` vivent dans l'enveloppe commune (spec 004).
+    const layout = readFileSync(join(appDir, 'components/layout/ShopShell.vue'), 'utf8')
 
     expect(config).toMatch(/lang:\s*'fr'/)
     expect(layout).toContain('href="#contenu"')

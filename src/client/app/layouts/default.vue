@@ -1,13 +1,33 @@
+<script setup lang="ts">
+/**
+ * Disposition par défaut de toutes les pages de la vitrine.
+ *
+ * Charge les informations de la boutique (le chargement ne bloque jamais l'affichage : voir `useShop`),
+ * le compteur du panier et l'année, puis les confie à `ShopShell`. Une recherche validée dans l'en-tête
+ * ou le menu mène à la page du catalogue.
+ */
+import ShopShell from '~/components/layout/ShopShell.vue'
+
+const shop = await useShop()
+const cartCount = useCartCount()
+const year = new Date().getFullYear()
+
+/** Mène à la page de résultats d'une recherche. */
+async function goToSearch(location: string): Promise<void> {
+  await navigateTo(location)
+}
+</script>
+
 <template>
-  <div class="min-h-dvh bg-surface font-sans text-ink">
-    <a
-      href="#contenu"
-      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:bg-accent focus:px-4 focus:py-2 focus:text-accent-contrast"
-    >
-      Aller au contenu
-    </a>
-    <main id="contenu">
-      <slot />
-    </main>
-  </div>
+  <ShopShell
+    :shop-name="shop.name"
+    :tagline="shop.tagline"
+    :whatsapp="shop.whatsapp"
+    :theme-style="shop.themeStyle"
+    :cart-count="cartCount"
+    :year="year"
+    @search="goToSearch"
+  >
+    <slot />
+  </ShopShell>
 </template>

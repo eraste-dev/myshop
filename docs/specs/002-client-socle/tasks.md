@@ -22,7 +22,7 @@ Statut de la spec : **implémentée**.
 - [x] Build, rendu serveur et types vérifiés
 
 ## Dette connue
-- `nuxt typecheck` et `nuxt prepare` signalent « 1 open connection » après exécution : le processus peut ne pas se terminer seul en intégration continue. À traiter quand l'intégration continue sera ajoutée.
+- `nuxt typecheck` régénère `.nuxt` et **se bloque quand un serveur de développement est ouvert** sur le même projet. Le script `typecheck` de la vitrine appelle donc `vue-tsc` directement sur `.nuxt/tsconfig.app.json` et `.nuxt/tsconfig.server.json` (5 secondes, sans régénération) ; `check.sh` régénère `.nuxt` s'il manque.
 - CLI-1 et CLI-5 sont vérifiés à la main, sans test automatique.
 
 ## Outillage TypeScript 7
