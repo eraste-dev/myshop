@@ -24,19 +24,19 @@ install:
 dev app="client":
     bash {{ scripts }}/dev.sh "$1"
 
-# Lance la vitrine (http://localhost:3000)
+# Lance la vitrine (http://localhost:51001)
 client:
     bash {{ scripts }}/dev.sh client
 
-# Lance le back-office d'une boutique (http://localhost:3001), pas encore créé
+# Lance le back-office d'une boutique (http://localhost:51002), pas encore créé
 client-admin:
     bash {{ scripts }}/dev.sh client-admin
 
-# Lance l'app générale de gestion des boutiques (http://localhost:3002), pas encore créée
+# Lance l'app générale de gestion des boutiques (http://localhost:51003), pas encore créée
 client-platform:
     bash {{ scripts }}/dev.sh client-platform
 
-# Lance le backend (http://localhost:4000), langage non choisi
+# Lance le backend (http://localhost:51004), langage non choisi
 backend:
     bash {{ scripts }}/dev.sh backend
 

@@ -4,6 +4,8 @@ export default defineNuxtConfig({
   compatibilityDate: '2026-11-01',
   devtools: { enabled: false },
   ssr: true,
+  // Port de développement : aligné sur infra/scripts/lib.sh (plage 510xx, hors des ports usuels).
+  devServer: { port: 51001 },
   css: ['~/assets/css/main.css'],
   vite: {
     plugins: [tailwindcss()],

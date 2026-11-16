@@ -31,7 +31,7 @@ Depuis la racine du dépôt, avec [just](https://just.systems) (les scripts sont
 ```
 just                  liste des commandes
 just install          installe les dépendances
-just client           vitrine sur http://localhost:3000
+just client           vitrine sur http://localhost:51001
 just dev all          lance toutes les applications qui existent
 just build [app]      construction de production
 just preview [app]    version de production (construit si besoin)
@@ -40,7 +40,7 @@ just typecheck        contrôle de types
 just check            tests + contrôle de types
 just clean [--deps]   supprime les fichiers générés
 ```
-Ports : `client` 3000, `client-admin` 3001, `client-platform` 3002, `backend` 4000 (surchargeables : `CLIENT_PORT`, etc.). Les applications pas encore créées répondent par un message clair.
+Ports : `client` 51001, `client-admin` 51002, `client-platform` 51003, `backend` 51004 (plage 510xx, hors des ports usuels) (surchargeables : `CLIENT_PORT`, etc.). Les applications pas encore créées répondent par un message clair.
 **Windows** : le justfile vise explicitement Git Bash (`C:/Program Files/Git/bin/bash.exe`), car `bash` seul désigne WSL dans PowerShell. Adapter `windows-shell` si Git est installé ailleurs.
 **Règle just** : les arguments passent par `set positional-arguments` (`"$1"`, `"$@"`), jamais interpolés dans la ligne de commande (injection). Sans just : `cd src && pnpm test`, `pnpm typecheck`.
 

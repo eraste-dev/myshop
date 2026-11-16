@@ -19,10 +19,10 @@ die() {
 # Port de développement d'une application. Surchargeable : CLIENT_PORT, CLIENT_ADMIN_PORT, CLIENT_PLATFORM_PORT, BACKEND_PORT.
 app_port() {
   case "$1" in
-    client) echo "${CLIENT_PORT:-3000}" ;;
-    client-admin) echo "${CLIENT_ADMIN_PORT:-3001}" ;;
-    client-platform) echo "${CLIENT_PLATFORM_PORT:-3002}" ;;
-    backend) echo "${BACKEND_PORT:-4000}" ;;
+    client) echo "${CLIENT_PORT:-51001}" ;;
+    client-admin) echo "${CLIENT_ADMIN_PORT:-51002}" ;;
+    client-platform) echo "${CLIENT_PLATFORM_PORT:-51003}" ;;
+    backend) echo "${BACKEND_PORT:-51004}" ;;
     *) die "application inconnue : $1" ;;
   esac
 }
