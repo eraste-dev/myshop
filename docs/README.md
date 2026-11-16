@@ -13,6 +13,8 @@ Site e-commerce de vente de pagnes (Côte d'Ivoire), inspiré de l'esthétique d
 | [ecrans.md](ecrans.md) | Liste des écrans des trois applications |
 | [design.md](design.md) | Références de design de la vitrine (Vlisco), partiel |
 | [filtres.md](filtres.md) | Attributs produit et filtres du catalogue |
+| [specs/000-conventions.md](specs/000-conventions.md) | Méthode SDD + TDD, modèle de spec |
+| [specs/001-mesure/spec.md](specs/001-mesure/spec.md) | Spec de la vente à la mesure (brouillon) |
 | [questions-ouvertes.md](questions-ouvertes.md) | Décisions à prendre avec la mère |
 
 **Statut** : définition du MVP. La stack technique sera décidée après validation de ce périmètre.

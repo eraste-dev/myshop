@@ -23,9 +23,10 @@ src/
     shared/                types et règles métier communes
     mocks/                 données et simulation d'API
 ```
-À la racine, seuls restent la configuration du monorepo (`package.json`, `pnpm-workspace.yaml`, `pnpm-lock.yaml`), `.gitignore` et ce fichier. **Demander avant de créer un fichier à un nouvel emplacement.** Chaque app est organisée par fonctionnalité (catalog, product, cart, checkout…).
+**La racine du monorepo pnpm est `src/`** : `src/package.json`, `src/pnpm-workspace.yaml` et `src/pnpm-lock.yaml` y vivent. À la racine du dépôt restent `docs/`, `infra/`, `.gitignore` et ce fichier. **Demander avant de créer un fichier à un nouvel emplacement.** Chaque app est organisée par fonctionnalité (catalog, product, cart, checkout…).
 
 ## Commandes
+À lancer depuis `src/` :
 ```
 pnpm install
 pnpm test           tests de tous les paquets
