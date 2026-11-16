@@ -35,16 +35,18 @@
 Trois frontends distincts partagent le même socle (authentification, validation, accès aux données, jetons de design) et la même base PostgreSQL. **Décidé : API centrale** (la logique métier vit dans un seul serveur), pour que trois frontends partagent les mêmes règles (stock, paiement, isolation) et qu'une future app mobile puisse réutiliser l'API (voir « Mobile : plus tard »). **Décidé : monorepo** avec trois applications Nuxt (app générale, back-office boutique, app client), une API Hono, et des paquets partagés (types et schémas, accès aux données, jetons de design, composants).
 
 ```
-src/                       les applications
+src/
   client/                  app client : la vitrine (SSR, responsive)
   client-admin/            back-office de la boutique (SPA)
   client-platform/         app générale, gestion des boutiques (SPA)
   backend/                 API (langage en suspens)
-packages/                  code partagé entre applications
-  design/                  jetons de design
-  shared/                  types et règles communes
-  mocks/                   données et simulation d'API (temporaire)
-  ui/                      composants communs (plus tard)
+  packages/                code partagé entre applications
+    design/                jetons de design
+    shared/                types et règles communes
+    mocks/                 données et simulation d'API (temporaire)
+    ui/                    composants communs (plus tard)
+infra/                     déploiement (Coolify, Docker), à venir
+docs/                      spécifications et décisions
 ```
 
 ```mermaid

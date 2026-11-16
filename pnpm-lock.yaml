@@ -8,9 +8,9 @@ importers:
 
   .: {}
 
-  packages/design: {}
+  src/packages/design: {}
 
-  packages/shared:
+  src/packages/shared:
     devDependencies:
       typescript:
         specifier: ^7.0.2
