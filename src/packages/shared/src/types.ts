@@ -44,6 +44,8 @@ export type Badge = 'new' | 'classic' | 'last-pieces' | 'online-exclusive'
 /** Un coloris d'un dessin : ses photos, son stock, son mode de vente. */
 export interface Colorway {
   readonly id: string
+  /** Code court du coloris, ajouté à la référence du dessin (ex. « 007 »). */
+  readonly code: string
   readonly colorName: string
   readonly swatchImage: string
   readonly images: readonly string[]
@@ -66,15 +68,26 @@ export interface Design {
   readonly colorways: readonly Colorway[]
 }
 
-/** Carte produit du catalogue : un coloris mis en avant d'un dessin. */
+/**
+ * Mode d'affichage du prix d'une carte :
+ * `fixed` prix unique, `from` « à partir de » (plusieurs longueurs), `per-unit` prix de l'unité (vente à la mesure).
+ */
+export type PriceMode = 'fixed' | 'from' | 'per-unit'
+
+/** Carte produit du catalogue : un coloris d'un dessin. */
 export interface CatalogItem {
   readonly designId: string
   readonly colorwayId: string
+  /** `<référence du dessin>.<code du coloris>` */
   readonly reference: string
   readonly range: string
+  readonly colorName: string
   readonly image: string
-  readonly priceFrom: Xof
-  readonly isPriceFrom: boolean
+  readonly price: Xof
+  readonly priceMode: PriceMode
+  /** Unité du prix quand `priceMode` vaut `per-unit`, sinon `null`. */
+  readonly unit: LengthUnit | null
+  readonly available: boolean
   readonly badges: readonly Badge[]
 }
 
