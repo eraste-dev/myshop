@@ -18,6 +18,7 @@
     "vitest": "^5.1.0"
   },
   "dependencies": {
+    "@shop-pagne/types": "workspace:*",
     "zod": "^4.6.7"
   }
 }

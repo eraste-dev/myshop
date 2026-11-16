@@ -13,7 +13,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@shop-pagne/shared": "workspace:*"
+    "@shop-pagne/shared": "workspace:*",
+    "@shop-pagne/types": "workspace:*"
   },
   "devDependencies": {
     "@vitest/coverage-v8": "^5.1.0",

@@ -1,7 +1,6 @@
 import { describe, expect, it, vi } from 'vitest'
-import type { CatalogPage, Design } from '@shop-pagne/shared'
+import type { CatalogPage, Design, Fetcher } from '@shop-pagne/types'
 import { ApiError, createCatalogApi, toApiError, toQueryParams } from '../app/api/catalog'
-import type { Fetcher } from '../app/api/catalog'
 
 const emptyPage: CatalogPage = { items: [], facets: [], total: 0, nextCursor: null }
 

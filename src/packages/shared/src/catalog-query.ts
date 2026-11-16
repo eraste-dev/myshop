@@ -1,37 +1,19 @@
 import { z } from 'zod'
+import type { CatalogQueryResult, CatalogSort } from '@shop-pagne/types'
 
+/** Nombre de cartes par page quand la requête n'en précise pas. */
 export const DEFAULT_LIMIT = 12
+
+/** Nombre maximal de cartes par page. */
 export const MAX_LIMIT = 48
-export const CATALOG_SORTS = ['new', 'price-asc', 'price-desc'] as const
 
-export type CatalogSort = (typeof CATALOG_SORTS)[number]
+/** Ordres de tri acceptés. Doit rester aligné sur le type `CatalogSort`. */
+export const CATALOG_SORTS = ['new', 'price-asc', 'price-desc'] as const satisfies readonly CatalogSort[]
 
-/** Requête de liste du catalogue, après validation et valeurs par défaut. */
-export interface CatalogQuery {
-  readonly range: readonly string[]
-  readonly color: readonly string[]
-  readonly style: readonly string[]
-  readonly finish: readonly string[]
-  readonly length: readonly number[]
-  readonly priceMin: number | undefined
-  readonly priceMax: number | undefined
-  readonly availableOnly: boolean
-  readonly sort: CatalogSort
-  readonly cursor: string | null
-  readonly limit: number
-}
-
-export interface QueryIssue {
-  readonly field: string
-  readonly message: string
-}
-
-export type CatalogQueryResult =
-  | { readonly ok: true; readonly value: CatalogQuery }
-  | { readonly ok: false; readonly issues: readonly QueryIssue[] }
-
+/** Valeur brute d'un paramètre de requête : texte, texte répété, ou absent. */
 type RawParam = string | readonly string[] | undefined
 
+/** Découpe un paramètre en liste : sépare sur les virgules, retire les espaces et les éléments vides. */
 function toList(value: RawParam): string[] {
   const parts = value === undefined ? [] : typeof value === 'string' ? [value] : [...value]
   return parts
@@ -40,11 +22,13 @@ function toList(value: RawParam): string[] {
     .filter((item) => item.length > 0)
 }
 
+/** Paramètre listant des textes (ex. `color=Bleu,Rouge`). */
 const textList = z
   .union([z.string(), z.array(z.string())])
   .optional()
   .transform((value) => toList(value))
 
+/** Paramètre listant des nombres strictement positifs (ex. `length=2,6`). */
 const positiveNumberList = z
   .union([z.string(), z.array(z.string())])
   .optional()
@@ -57,17 +41,20 @@ const positiveNumberList = z
     return numbers
   })
 
+/** Paramètre contenant un montant entier positif ou nul, facultatif. */
 const wholeAmount = z
   .string()
   .regex(/^\d+$/, 'Doit être un entier positif ou nul.')
   .transform(Number)
   .optional()
 
+/** Paramètre booléen : `true` ou `1` activent, `false` ou `0` désactivent, l'absence vaut `false`. */
 const booleanFlag = z
   .enum(['true', '1', 'false', '0'])
   .optional()
   .transform((value) => value === 'true' || value === '1')
 
+/** Schéma complet de la requête de catalogue, avec valeurs par défaut et règles croisées. */
 const schema = z
   .object({
     range: textList,
@@ -108,7 +95,14 @@ const schema = z
     }
   })
 
-/** Valide et normalise les paramètres bruts d'une requête de catalogue. Ne modifie pas l'entrée. */
+/**
+ * Valide et normalise les paramètres bruts d'une requête de catalogue.
+ * Signale tous les champs fautifs d'un coup, ignore les paramètres inconnus et ne modifie pas l'entrée.
+ * Voir spec 003, MOC-R7 et MOC-R8.
+ *
+ * @param raw - Paramètres de requête tels que reçus (textes, ou listes de textes).
+ * @returns La requête normalisée, ou la liste des champs refusés avec leur motif.
+ */
 export function parseCatalogQuery(raw: Readonly<Record<string, RawParam>>): CatalogQueryResult {
   const parsed = schema.safeParse(raw)
 

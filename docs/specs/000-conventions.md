@@ -76,3 +76,42 @@ Chaque spec a un **code court** (ex. `MES` pour la mesure) utilisé dans les num
 - **Propriétaire du projet** : valide les specs et arbitre les questions ouvertes.
 - **Assistant** : rédige les specs, écrit les tests puis le code, signale les risques et les contradictions avec l'existant.
 - Aucune PR et aucun push sans demande explicite du propriétaire.
+
+## Conventions de code
+
+Ces règles sont **vérifiées automatiquement** par `src/packages/types/tests/architecture.test.ts` (critères ARCH-1 à ARCH-4). Un test qui échoue bloque le « terminé ».
+
+### Types et interfaces : un seul paquet
+- Tous les types et interfaces **exportés** vivent dans `@shop-pagne/types` (`src/packages/types/src`), classés par domaine : `catalog`, `catalog-query`, `shop`, `measure`, `api`, `mocks`, `ui`.
+- Le paquet ne contient **aucun code exécutable** (ni `const`, ni `function`, ni `class`, ni `enum`).
+- Les autres paquets importent leurs types avec `import type { … } from '@shop-pagne/types'` et n'en exportent aucun.
+- Un type utilisé par un seul module, et qui n'en sort jamais, peut rester **local et non exporté** (ex. `RawQuery`, `Entry`). Il est documenté comme le reste.
+- Quand un type se déduit d'une constante (ex. les valeurs de tri), le type littéral vit dans le paquet de types et la constante est déclarée `as const satisfies readonly Type[]` : le compilateur signale toute dérive.
+
+### JSDoc : tout ce qui est déclaré est documenté
+Chaque déclaration de premier niveau porte un commentaire `/** … */` **placé juste au-dessus**, sans ligne vide entre les deux : fonction, classe, type, interface, constante, et fonction fléchée nommée. Cela vaut aussi pour ce qui n'est pas exporté, et pour le `export default` des routes serveur.
+
+Forme commune, en français :
+```ts
+/**
+ * Phrase de résumé à l'indicatif : ce que fait l'élément, pas comment.
+ * Détails utiles : règle métier, cas limite, unité. Renvoi à la spec : « Voir spec 001, MES-R2. »
+ *
+ * @param nom - Rôle du paramètre, avec son unité si pertinent.
+ * @returns Ce qui est renvoyé, y compris les cas particuliers (`null`, `undefined`).
+ * @throws Quand et pourquoi.
+ */
+```
+- Une phrase suffit pour une constante ou un petit utilitaire ; pas de `@param` redondant quand le nom dit tout.
+- `@param`, `@returns` et `@throws` sont obligatoires pour toute fonction **exportée** qui a des paramètres ou une valeur de retour non évidente.
+- **Chaque propriété d'une interface** du paquet de types a sa ligne de documentation (ARCH-3).
+- Les composants Vue ouvrent leur bloc `<script setup>` par un JSDoc qui décrit le composant, ses propriétés et ses événements (ARCH-4).
+- On ne commente pas ce que le code dit déjà ; on explique le **pourquoi** et les **règles**.
+
+### Critères
+| Id | Vérification |
+|---|---|
+| ARCH-1 | Aucun `export interface` ni `export type` hors de `@shop-pagne/types` ; aucun code exécutable dans ce paquet |
+| ARCH-2 | Chaque déclaration de premier niveau (fonctions, classes, types, constantes) est précédée d'un JSDoc |
+| ARCH-3 | Chaque propriété d'une interface du paquet de types est documentée |
+| ARCH-4 | Chaque composant Vue ouvre son script par un JSDoc |

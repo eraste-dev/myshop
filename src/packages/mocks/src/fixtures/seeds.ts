@@ -1,26 +1,7 @@
-import type { PatternKind } from '../pattern'
+/** Données de départ des dessins de démonstration : palettes et descriptions compactes. */
+import type { ColorName, DesignSeed } from '@shop-pagne/types'
 
-export type ColorName = 'Bleu' | 'Rouge' | 'Vert' | 'Orange' | 'Jaune' | 'Rose' | 'Noir' | 'Marron' | 'Violet'
-
-export interface DesignSeed {
-  readonly id: string
-  readonly reference: string
-  readonly name: string
-  readonly range: string
-  readonly kind: PatternKind
-  readonly style: readonly string[]
-  readonly finish: string
-  readonly sale: 'piece' | 'measure'
-  /** Prix de la pièce de 6 yards, ou de 6 yards au prorata pour la vente à la mesure. */
-  readonly base: number
-  readonly colors: readonly ColorName[]
-  /** Longueurs de pièce proposées (vente à la pièce). */
-  readonly lengths?: readonly number[]
-  /** Longueur minimale (vente à la mesure). */
-  readonly min?: number
-}
-
-/** Palettes de démonstration : fond puis accents. */
+/** Palettes de démonstration, par couleur : la première valeur sert de fond, les suivantes d'accents. */
 export const PALETTES: Readonly<Record<ColorName, readonly string[]>> = {
   Bleu: ['#16367a', '#f0c33c', '#f4ede0', '#2f7fd1'],
   Rouge: ['#8c1c1c', '#f0c33c', '#f4ede0', '#e2572b'],

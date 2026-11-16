@@ -1,4 +1,4 @@
-import type { Shop } from '@shop-pagne/shared'
+import type { Shop } from '@shop-pagne/types'
 
 /** Boutique de démonstration. Pas de marque pour l'instant : nom et numéro sont fictifs. */
 export const DEMO_SHOP: Shop = {

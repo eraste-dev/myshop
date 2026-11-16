@@ -1,5 +1,16 @@
 import { describe, expect, it } from 'vitest'
-import { demoCatalogResponse, demoDesignResponse } from './api'
+import { demoCatalogResponse, demoDesignResponse, demoShopResponse } from './api'
+import { DEMO_SHOP } from './fixtures/shop'
+
+describe('demoShopResponse', () => {
+  it('[LAY-1] répond 200 avec le nom, l’accroche, le numéro WhatsApp et le thème', () => {
+    const response = demoShopResponse()
+
+    expect(response.status).toBe(200)
+    expect(response.status === 200 && response.body).toEqual(DEMO_SHOP)
+    expect(response.status === 200 && response.body.theme.accent).toMatch(/^#[0-9a-f]{3,8}$/i)
+  })
+})
 
 describe('demoCatalogResponse', () => {
   it('[MOC-5] répond 200 avec la première page', () => {

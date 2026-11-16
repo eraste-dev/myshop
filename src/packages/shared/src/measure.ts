@@ -1,30 +1,37 @@
-import type { MeasureConfig, Xof } from './types'
+import type { MeasureConfig, MeasureValidation, Xof } from '@shop-pagne/types'
 
-/** Longueurs manipulées en centièmes d'unité (entiers) pour éviter les erreurs de flottants. */
+/** Les longueurs sont manipulées en centièmes d'unité (entiers) pour éviter les erreurs de flottants. */
 const HUNDREDTHS = 100
 
 /** Un yard vaut exactement 0,9144 mètre. */
 const METERS_PER_YARD = 0.9144
 
-export type MeasureError =
-  | { readonly ok: false; readonly code: 'not_a_number' }
-  | { readonly ok: false; readonly code: 'below_min'; readonly min: number }
-  | { readonly ok: false; readonly code: 'above_max'; readonly max: number }
-  | { readonly ok: false; readonly code: 'invalid_step'; readonly step: number }
-  | { readonly ok: false; readonly code: 'exceeds_stock'; readonly available: number }
-
-export type MeasureValidation = { readonly ok: true } | MeasureError
-
+/** Convertit une longueur en centièmes d'unité entiers, pour comparer sans erreur de flottant. */
 function toHundredths(value: number): number {
   return Math.round(value * HUNDREDTHS)
 }
 
-/** Prix d'une longueur donnée, arrondi au franc CFA entier. */
+/**
+ * Calcule le prix d'une longueur vendue à la mesure : prix unitaire × longueur, arrondi au franc entier.
+ * Voir spec 001, MES-R2 et MES-R3.
+ *
+ * @param config - Paramètres de mesure du produit.
+ * @param length - Longueur demandée, dans l'unité du produit.
+ * @returns Le prix en francs CFA, entier.
+ */
 export function measurePrice(config: MeasureConfig, length: number): Xof {
   return Math.round((config.unitPrice * toHundredths(length)) / HUNDREDTHS)
 }
 
-/** Vérifie une longueur demandée contre les limites, le pas de découpe et le stock. */
+/**
+ * Vérifie une longueur demandée contre les limites, le pas de découpe et le stock.
+ * Une seule erreur est renvoyée, dans l'ordre : valeur invalide, sous le minimum, au-dessus du maximum,
+ * hors du pas, au-dessus du stock. Le pas est compté à partir du minimum. Voir spec 001, MES-R4 à MES-R7 et MES-R10.
+ *
+ * @param config - Paramètres de mesure du produit.
+ * @param length - Longueur demandée, dans l'unité du produit.
+ * @returns `{ ok: true }` si la longueur est valide, sinon le code du refus et la valeur utile à l'affichage.
+ */
 export function validateMeasure(config: MeasureConfig, length: number): MeasureValidation {
   if (!Number.isFinite(length) || length <= 0) {
     return { ok: false, code: 'not_a_number' }
@@ -51,15 +58,33 @@ export function validateMeasure(config: MeasureConfig, length: number): MeasureV
   return { ok: true }
 }
 
-/** Un produit à la mesure est disponible si son stock couvre au moins la longueur minimale. */
+/**
+ * Indique si un produit à la mesure est commandable : son stock couvre au moins la longueur minimale.
+ * Voir spec 001, MES-R9.
+ *
+ * @param config - Paramètres de mesure du produit.
+ * @returns `true` si le produit est disponible.
+ */
 export function isMeasureAvailable(config: MeasureConfig): boolean {
   return config.stock > 0 && toHundredths(config.stock) >= toHundredths(config.min)
 }
 
+/**
+ * Convertit des yards en mètres.
+ *
+ * @param yards - Longueur en yards.
+ * @returns La longueur en mètres, arrondie au centième.
+ */
 export function yardsToMeters(yards: number): number {
   return Math.round(yards * METERS_PER_YARD * HUNDREDTHS) / HUNDREDTHS
 }
 
+/**
+ * Convertit des mètres en yards.
+ *
+ * @param meters - Longueur en mètres.
+ * @returns La longueur en yards, arrondie au centième.
+ */
 export function metersToYards(meters: number): number {
   return Math.round((meters / METERS_PER_YARD) * HUNDREDTHS) / HUNDREDTHS
 }

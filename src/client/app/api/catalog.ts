@@ -1,37 +1,22 @@
-import type { CatalogPage, CatalogSort, Design } from '@shop-pagne/shared'
+/** Client du catalogue : la seule porte de la vitrine vers les données du catalogue. */
+import type { CatalogApi, CatalogFilters, CatalogPage, Design, Fetcher } from '@shop-pagne/types'
 import { toApiError } from './errors'
 
 export { ApiError, toApiError } from './errors'
-export type { ApiErrorKind } from './errors'
 
-/** Appel HTTP injectable : `$fetch` en production, une fausse fonction dans les tests. */
-export type Fetcher = <T>(url: string, options?: { query?: Record<string, string> }) => Promise<T>
-
-/** Filtres du catalogue tels que les manipule l'interface. */
-export interface CatalogFilters {
-  readonly range?: readonly string[]
-  readonly color?: readonly string[]
-  readonly style?: readonly string[]
-  readonly finish?: readonly string[]
-  readonly length?: readonly number[]
-  readonly priceMin?: number
-  readonly priceMax?: number
-  readonly availableOnly?: boolean
-  readonly sort?: CatalogSort
-  readonly cursor?: string
-  readonly limit?: number
-}
-
-/** La seule porte de la vitrine vers les données du catalogue. */
-export interface CatalogApi {
-  list(filters: CatalogFilters): Promise<CatalogPage>
-  getDesign(id: string): Promise<Design>
-}
-
+/** Filtres dont la valeur est une liste, envoyée en paramètre séparé par des virgules. */
 const LIST_KEYS = ['range', 'color', 'style', 'finish', 'length'] as const
+
+/** Filtres dont la valeur est unique. */
 const VALUE_KEYS = ['priceMin', 'priceMax', 'sort', 'cursor', 'limit'] as const
 
-/** Traduit les filtres en paramètres d'adresse ; n'envoie rien pour ce qui est vide ou inactif. */
+/**
+ * Traduit les filtres de l'interface en paramètres d'adresse.
+ * N'envoie rien pour ce qui est vide ou inactif ; ne modifie pas l'entrée.
+ *
+ * @param filters - Filtres, tri et pagination demandés.
+ * @returns Les paramètres de requête, tous sous forme de texte.
+ */
 export function toQueryParams(filters: CatalogFilters): Record<string, string> {
   const params: Record<string, string> = {}
 
@@ -48,6 +33,13 @@ export function toQueryParams(filters: CatalogFilters): Record<string, string> {
   return params
 }
 
+/**
+ * Crée le client du catalogue.
+ * Toute erreur d'appel est convertie en `ApiError`, avec un message en français sans détail technique.
+ *
+ * @param fetcher - Fonction d'appel HTTP (`$fetch` en production, une fausse fonction dans les tests).
+ * @returns Le client du catalogue.
+ */
 export function createCatalogApi(fetcher: Fetcher): CatalogApi {
   return {
     async list(filters) {

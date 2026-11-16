@@ -21,7 +21,8 @@ src/
   backend/                 API (vide)
   packages/
     design/                jetons de design (tokens.css)
-    shared/                types et règles métier communes
+    types/                 tous les types et interfaces (aucun code exécutable)
+    shared/                règles métier communes (mesure, validation de requête)
     mocks/                 données et simulation d'API
 ```
 **La racine du monorepo pnpm est `src/`** : `src/package.json`, `src/pnpm-workspace.yaml` et `src/pnpm-lock.yaml` y vivent. À la racine du dépôt restent `docs/`, `infra/`, `.gitignore` et ce fichier. **Demander avant de créer un fichier à un nouvel emplacement.** Chaque app est organisée par fonctionnalité (catalog, product, cart, checkout…).
@@ -60,6 +61,8 @@ Ports : `client` 51001, `client-admin` 51002, `client-platform` 51003, `backend`
 - Immutabilité : ne pas modifier un objet en place, renvoyer une copie. Types `readonly` pour les modèles partagés.
 - **Argent** : montants en XOF, **entiers**, jamais de flottants.
 - **Mesures** : longueurs calculées en centièmes entiers (voir `src/packages/shared/src/measure.ts`).
+- **Tous les types et interfaces exportés vivent dans `@shop-pagne/types`** (`src/packages/types`), jamais ailleurs ; ce paquet n'a aucun code exécutable.
+- **JSDoc en français sur chaque déclaration de premier niveau** (fonction, classe, type, interface, constante, même non exportée), juste au-dessus ; `@param`/`@returns`/`@throws` sur les fonctions exportées ; chaque propriété d'interface documentée. Forme et critères : `docs/specs/000-conventions.md`, section « Conventions de code ». Vérifié par `src/packages/types/tests/architecture.test.ts`.
 - Types explicites sur les API publiques ; pas de `any` (utiliser `unknown` puis restreindre).
 - Pas de `console.log` en production. Pas de secret dans le code : variables d'environnement.
 - Fichiers < 800 lignes, fonctions < 50 lignes, imbrication ≤ 4 niveaux.

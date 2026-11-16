@@ -1,16 +1,27 @@
+/** Réponses de l'API simulée : statut et corps, en fonctions pures (voir spec 003). */
 import { parseCatalogQuery } from '@shop-pagne/shared'
-import type { CatalogPage, Design, QueryIssue } from '@shop-pagne/shared'
+import type { ApiResult, CatalogPage, Design, Shop } from '@shop-pagne/types'
 import { demoGetDesign, demoListCatalog } from './demo'
+import { DEMO_SHOP } from './fixtures/shop'
 
-/** Réponse HTTP simulée : un statut et un corps, sans dépendre d'un serveur. */
-export type ApiResult<T> =
-  | { readonly status: 200; readonly body: T }
-  | { readonly status: 400; readonly body: { readonly error: 'invalid_query'; readonly issues: readonly QueryIssue[] } }
-  | { readonly status: 404; readonly body: { readonly error: 'not_found' } }
-
+/** Paramètres de requête tels que reçus : textes, listes de textes, ou absents. */
 type RawQuery = Readonly<Record<string, string | readonly string[] | undefined>>
 
-/** `GET /api/catalog` : valide la requête puis liste le catalogue de démonstration. */
+/**
+ * Répond à `GET /api/shop`.
+ *
+ * @returns Toujours 200, avec la boutique de démonstration.
+ */
+export function demoShopResponse(): ApiResult<Shop> {
+  return { status: 200, body: DEMO_SHOP }
+}
+
+/**
+ * Répond à `GET /api/catalog` : valide la requête, puis liste le catalogue de démonstration.
+ *
+ * @param rawQuery - Paramètres de requête bruts.
+ * @returns 200 avec la page demandée, ou 400 avec la liste des champs fautifs.
+ */
 export function demoCatalogResponse(rawQuery: RawQuery): ApiResult<CatalogPage> {
   const parsed = parseCatalogQuery(rawQuery)
 
@@ -19,7 +30,12 @@ export function demoCatalogResponse(rawQuery: RawQuery): ApiResult<CatalogPage> 
     : { status: 400, body: { error: 'invalid_query', issues: parsed.issues } }
 }
 
-/** `GET /api/designs/:id` : fiche d'un dessin, ou 404 s'il n'existe pas. */
+/**
+ * Répond à `GET /api/designs/:id`.
+ *
+ * @param id - Identifiant du dessin demandé.
+ * @returns 200 avec la fiche du dessin, ou 404 s'il n'existe pas.
+ */
 export function demoDesignResponse(id: string): ApiResult<Design> {
   const design = demoGetDesign(id)
 

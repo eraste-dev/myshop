@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { parseCatalogQuery } from '@shop-pagne/shared'
-import type { Colorway } from '@shop-pagne/shared'
+import type { Colorway } from '@shop-pagne/types'
 import { listCatalog } from '../catalog'
 import { DEMO_DESIGNS } from './designs'
 import { DEMO_SHOP } from './shop'

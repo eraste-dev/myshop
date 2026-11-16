@@ -1,5 +1,6 @@
 import { demoCatalogResponse } from '@shop-pagne/mocks'
 
+/** `GET /api/catalog` : liste filtrée, triée et paginée du catalogue de démonstration. */
 export default defineEventHandler(async (event) => {
   await applyMockScenario(event)
 

@@ -1,6 +1,6 @@
 import { demoPatternSvg } from '@shop-pagne/mocks'
 
-/** Image de démonstration d'un coloris : `/api/patterns/<coloris>.svg`, avec `?zoom=2` pour la vue détail. */
+/** `GET /api/patterns/<coloris>.svg` : image de démonstration d'un coloris, avec `?zoom=2` pour la vue détail. */
 export default defineEventHandler((event) => {
   const zoomParam = getQuery(event).zoom
   const zoom = typeof zoomParam === 'string' ? Number(zoomParam) : undefined

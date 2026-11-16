@@ -6,7 +6,7 @@ import {
   validateMeasure,
   yardsToMeters,
 } from './measure'
-import type { MeasureConfig } from './types'
+import type { MeasureConfig } from '@shop-pagne/types'
 
 const config: MeasureConfig = {
   unit: 'yard',
