@@ -41,6 +41,7 @@ just check            tests + contrôle de types
 just clean [--deps]   supprime les fichiers générés
 ```
 Ports : `client` 3000, `client-admin` 3001, `client-platform` 3002, `backend` 4000 (surchargeables : `CLIENT_PORT`, etc.). Les applications pas encore créées répondent par un message clair.
+**Windows** : le justfile vise explicitement Git Bash (`C:/Program Files/Git/bin/bash.exe`), car `bash` seul désigne WSL dans PowerShell. Adapter `windows-shell` si Git est installé ailleurs.
 **Règle just** : les arguments passent par `set positional-arguments` (`"$1"`, `"$@"`), jamais interpolés dans la ligne de commande (injection). Sans just : `cd src && pnpm test`, `pnpm typecheck`.
 
 ## Méthode : SDD + TDD

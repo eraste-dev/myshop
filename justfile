@@ -2,7 +2,9 @@
 # Les scripts sont dans infra/scripts (bash : Git Bash sous Windows).
 
 set shell := ["bash", "-cu"]
-set windows-shell := ["bash", "-cu"]
+# Sous Windows, `bash` désigne souvent celui de WSL (sans distribution installée) : on vise explicitement Git Bash.
+# Chemin par défaut de Git for Windows ; à adapter si Git est installé ailleurs.
+set windows-shell := ["C:/Program Files/Git/bin/bash.exe", "-cu"]
 
 # Les arguments sont passés en paramètres positionnels ($1, $@), jamais insérés dans la ligne de commande :
 # cela évite toute injection de commande (ex. `just build "client; rm -rf x"`).
