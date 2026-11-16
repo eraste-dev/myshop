@@ -19,6 +19,9 @@ importers:
       '@shop-pagne/design':
         specifier: workspace:*
         version: link:../packages/design
+      '@shop-pagne/mocks':
+        specifier: workspace:*
+        version: link:../packages/mocks
       '@shop-pagne/shared':
         specifier: workspace:*
         version: link:../packages/shared

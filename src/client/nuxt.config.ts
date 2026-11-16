@@ -15,6 +15,13 @@ export default defineNuxtConfig({
       meta: [{ name: 'viewport', content: 'width=device-width, initial-scale=1' }],
     },
   },
+  build: {
+    transpile: ['@shop-pagne/shared', '@shop-pagne/mocks'],
+  },
+  nitro: {
+    // Les paquets du monorepo sont en TypeScript : on les intègre au serveur plutôt que de les charger depuis node_modules.
+    externals: { inline: ['@shop-pagne/shared', '@shop-pagne/mocks'] },
+  },
   typescript: {
     strict: true,
   },

@@ -14,11 +14,13 @@ Construire les trois frontends complets, branchés sur des **données simulées*
 ### Une frontière unique : le client d'API
 Les écrans n'appellent jamais directement les mocks. Ils passent par un **client d'API** (une interface par domaine : produits, panier, commandes, paramètres, etc.). Le backend réel remplacera les mocks derrière cette même interface, sans modifier les écrans.
 
-### Mocks au niveau HTTP avec MSW
-- **MSW (Mock Service Worker)** intercepte les appels réseau dans le navigateur et dans les tests. Les écrans font de vraies requêtes HTTP, comme avec le futur backend.
-- Les mocks vivent dans un paquet dédié du monorepo, partagé par les trois apps.
-- Données de démonstration cohérentes : plusieurs boutiques, pagnes à la pièce et à la mesure, stocks variés, commandes dans tous les statuts.
-- Un état **modifiable** pendant la session (panier, commandes, stock) pour jouer les parcours, remis à zéro au rechargement ou par un bouton de réinitialisation.
+### Mocks au niveau HTTP, servis par Nitro
+- Les écrans font de vraies requêtes HTTP vers `/api/...`, comme avec le futur backend.
+- Les routes simulées sont des **routes serveur Nitro** de chaque application (`server/api/`). Elles répondent aussi bien au rendu serveur qu'au navigateur. **MSW n'a pas été retenu** : il n'intercepte que le navigateur, donc pas les appels du rendu serveur de la vitrine (voir [spec 003](specs/003-donnees-demo-et-api/spec.md), décision D1).
+- La **logique de simulation** (filtres, tri, facettes, réponses 200, 400, 404) vit dans le paquet `@shop-pagne/mocks`, en fonctions pures testées, et les routes ne font que la brancher. Les autres applications la réutilisent.
+- Données de démonstration cohérentes : 14 dessins, 43 coloris, pièces et mesures, ruptures et stocks bas. Les photos sont des **motifs SVG générés**, servis par URL.
+- Un paramètre `?scenario=error` ou `?scenario=slow` force une panne ou une lenteur, pour valider les états d'erreur et de chargement.
+- Quand le backend existera : on supprime `server/api/` et on configure un proxy `/api` vers lui. Les écrans ne changent pas.
 
 ### Contrat de données
 - Les types des échanges (produit, commande, boutique, paramètres...) sont écrits à la main dans un paquet partagé. Ils servent de **contrat provisoire**.

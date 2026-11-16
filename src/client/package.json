@@ -15,6 +15,7 @@
     "@fontsource-variable/jost": "^5.3.0",
     "@fontsource-variable/newsreader": "^5.3.0",
     "@shop-pagne/design": "workspace:*",
+    "@shop-pagne/mocks": "workspace:*",
     "@shop-pagne/shared": "workspace:*",
     "@tailwindcss/vite": "^4.3.5",
     "nuxt": "^4.6.4",

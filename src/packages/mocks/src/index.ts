@@ -1,3 +1,5 @@
+export { demoCatalogResponse, demoDesignResponse } from './api'
+export type { ApiResult } from './api'
 export { getDesign, listCatalog } from './catalog'
 export { demoGetDesign, demoListCatalog, demoPatternSvg } from './demo'
 export { DEMO_DESIGNS } from './fixtures/designs'
