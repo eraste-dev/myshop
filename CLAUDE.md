@@ -23,6 +23,7 @@ src/
     design/                jetons de design (tokens.css)
     types/                 tous les types et interfaces (aucun code exécutable)
     shared/                règles métier communes (mesure, validation de requête)
+    photos/                traitement des photos de pagnes (sharp, manifeste)
     mocks/                 données et simulation d'API
 ```
 **La racine du monorepo pnpm est `src/`** : `src/package.json`, `src/pnpm-workspace.yaml` et `src/pnpm-lock.yaml` y vivent. À la racine du dépôt restent `docs/`, `infra/`, `.gitignore` et ce fichier. **Demander avant de créer un fichier à un nouvel emplacement.** Chaque app est organisée par fonctionnalité (catalog, product, cart, checkout…).
@@ -36,6 +37,7 @@ just client           vitrine sur http://localhost:51001
 just dev all          lance toutes les applications qui existent
 just build [app]      construction de production
 just preview [app]    version de production (construit si besoin)
+just photos           traite les photos de docs/references/pagnes (WebP, couleur, manifeste)
 just test             tests de tous les paquets
 just typecheck        contrôle de types
 just check            tests + contrôle de types

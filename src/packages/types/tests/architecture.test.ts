@@ -22,6 +22,7 @@ const typesSource = resolve(workspace, 'packages/types/src')
 const SCANNED_ROOTS = [
   resolve(workspace, 'packages/shared/src'),
   resolve(workspace, 'packages/mocks/src'),
+  resolve(workspace, 'packages/photos/src'),
   resolve(workspace, 'client/app'),
   resolve(workspace, 'client/server'),
   typesSource,

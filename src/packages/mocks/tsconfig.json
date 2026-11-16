@@ -8,6 +8,7 @@
     "noImplicitOverride": true,
     "skipLibCheck": true,
     "isolatedModules": true,
+    "resolveJsonModule": true,
     "verbatimModuleSyntax": true,
     "types": []
   },
