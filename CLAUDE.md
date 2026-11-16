@@ -12,7 +12,8 @@ Plateforme multi-boutiques de vente de pagnes, inspirée de Vlisco. Première bo
 ## Structure
 ```
 docs/                      spécifications, décisions, références (lire avant de coder)
-infra/                     déploiement, à venir
+infra/scripts/             scripts de lancement et de contrôle (appelés par le justfile)
+justfile                   commandes du projet
 src/
   client/                  vitrine (SSR, mobile d'abord)
   client-admin/            back-office de la boutique
@@ -26,13 +27,21 @@ src/
 **La racine du monorepo pnpm est `src/`** : `src/package.json`, `src/pnpm-workspace.yaml` et `src/pnpm-lock.yaml` y vivent. À la racine du dépôt restent `docs/`, `infra/`, `.gitignore` et ce fichier. **Demander avant de créer un fichier à un nouvel emplacement.** Chaque app est organisée par fonctionnalité (catalog, product, cart, checkout…).
 
 ## Commandes
-À lancer depuis `src/` :
+Depuis la racine du dépôt, avec [just](https://just.systems) (les scripts sont dans `infra/scripts/`, en bash) :
 ```
-pnpm install
-pnpm test           tests de tous les paquets
-pnpm typecheck      contrôle de types
-pnpm dev:client     vitrine
+just                  liste des commandes
+just install          installe les dépendances
+just client           vitrine sur http://localhost:3000
+just dev all          lance toutes les applications qui existent
+just build [app]      construction de production
+just preview [app]    version de production (construit si besoin)
+just test             tests de tous les paquets
+just typecheck        contrôle de types
+just check            tests + contrôle de types
+just clean [--deps]   supprime les fichiers générés
 ```
+Ports : `client` 3000, `client-admin` 3001, `client-platform` 3002, `backend` 4000 (surchargeables : `CLIENT_PORT`, etc.). Les applications pas encore créées répondent par un message clair.
+**Règle just** : les arguments passent par `set positional-arguments` (`"$1"`, `"$@"`), jamais interpolés dans la ligne de commande (injection). Sans just : `cd src && pnpm test`, `pnpm typecheck`.
 
 ## Méthode : SDD + TDD
 1. **Spec d'abord** : `docs/specs/<n>-<nom>/` (spec, plan, tâches). L'utilisateur la valide **avant** le code. Les scénarios de `docs/scenarios.md` (S*, A*, P*) servent de critères d'acceptation.
