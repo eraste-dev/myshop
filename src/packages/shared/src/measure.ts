@@ -51,6 +51,11 @@ export function validateMeasure(config: MeasureConfig, length: number): MeasureV
   return { ok: true }
 }
 
+/** Un produit à la mesure est disponible si son stock couvre au moins la longueur minimale. */
+export function isMeasureAvailable(config: MeasureConfig): boolean {
+  return config.stock > 0 && toHundredths(config.stock) >= toHundredths(config.min)
+}
+
 export function yardsToMeters(yards: number): number {
   return Math.round(yards * METERS_PER_YARD * HUNDREDTHS) / HUNDREDTHS
 }
