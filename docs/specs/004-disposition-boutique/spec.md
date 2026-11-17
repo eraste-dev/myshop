@@ -1,7 +1,7 @@
 # 004 – Disposition de la boutique (en-tête, menu, pied de page)
 
 **Code** : `LAY` · **Statut** : validée (délégation) · **Branche** : `feat/client-layout`
-**Scénarios liés** : S14, S16 · **Voir aussi** : [design.md](../../design.md), [ecrans.md](../../ecrans.md), [002](../002-client-socle/spec.md), [003](../003-donnees-demo-et-api/spec.md)
+**Scénarios liés** : S14, S16 · **Voir aussi** : [design.md](../../conception/design.md), [ecrans.md](../../produit/ecrans.md), [002](../002-client-socle/spec.md), [003](../003-donnees-demo-et-api/spec.md)
 
 ## Objectif
 Donner à toutes les pages de la vitrine une **enveloppe commune** : en-tête sobre avec menu, recherche et panier, pied de page avec liens utiles et contact WhatsApp, le tout **aux couleurs de la boutique** et accessible.
@@ -21,7 +21,7 @@ Contenu de l'accueil. Page de résultats de la recherche (spec du catalogue). Pa
 - **LAY-R9** Accessibilité : repères `header`, `nav`, `main`, `footer` ; lien d'évitement toujours le premier élément focalisable ; boutons d'icônes avec libellé en français ; cibles tactiles d'au moins 44 px ; focus visible ; le bouton de menu porte `aria-expanded` et `aria-controls`.
 - **LAY-R10** Les liens de navigation fonctionnent **sans JavaScript** (rendu serveur).
 - **LAY-R11** Si l'API de la boutique échoue, l'enveloppe s'affiche quand même, avec le nom par défaut « Boutique de pagnes », sans bloquer la page.
-- **LAY-R12** Le nom de la boutique est affiché en **police d'affichage** ; le reste en police de texte (jetons de [design](../../design.md)).
+- **LAY-R12** Le nom de la boutique est affiché en **police d'affichage** ; le reste en police de texte (jetons de [design](../../conception/design.md)).
 
 ## Critères d'acceptation
 | Id | Étant donné | Quand | Alors |

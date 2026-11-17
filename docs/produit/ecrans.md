@@ -22,7 +22,7 @@ Trois applications. Priorité : **P1** = MVP, **P2** = plus tard.
 | Partager un produit ou la boutique | P1 | S15 |
 | Pages : livraison et retours, CGV, à propos, contact | P1 | S16 |
 | Boutique introuvable, page 404, erreur | P1 | |
-| Visualiseur 3D | P2 | voir [3d.md](3d.md) |
+| Visualiseur 3D | P2 | voir [3d.md](../conception/3d.md) |
 | Compte client, historique | P2 | |
 
 ## 2. Back-office de la boutique (`client-admin`)

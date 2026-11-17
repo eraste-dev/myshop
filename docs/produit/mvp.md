@@ -41,7 +41,7 @@ Lancer la boutique de pagnes de la mère en Côte d'Ivoire, **sur des fondations
 ## Hors MVP
 - Inscription libre de commerçants, abonnement, facturation (phase 3)
 - Domaines personnalisés, thèmes (phase 3)
-- Visualiseur 3D (voir [3d.md](3d.md))
+- Visualiseur 3D (voir [3d.md](../conception/3d.md))
 - Suivi de livraison dans l'app (v2)
 - Comptes clients, promos, avis, wishlist
 - Multi-langue
@@ -65,7 +65,7 @@ Paramètres du mode « à la mesure » : unité (yard ou mètre), longueur minim
 
 ## Particularités pagnes
 - **Photos du motif** : plusieurs vues, zoom, nom ou référence du motif, plus une photo du motif à plat réservée à la 3D.
-- **3D** : visualiseur par texture sur formes prêtes, voir [3d.md](3d.md) (phase à valider).
+- **3D** : visualiseur par texture sur formes prêtes, voir [3d.md](../conception/3d.md) (phase à valider).
 
 ## Livraison
 - Zones et tarifs configurables par boutique et par pays.

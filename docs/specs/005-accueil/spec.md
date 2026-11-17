@@ -1,7 +1,7 @@
 # 005 – Page d'accueil
 
 **Code** : `HOM` · **Statut** : validée (délégation) · **Branche** : `feat/client-home`
-**Scénarios liés** : S1 · **Voir aussi** : [design.md](../../design.md), [ecrans.md](../../ecrans.md), [003](../003-donnees-demo-et-api/spec.md), [004](../004-disposition-boutique/spec.md)
+**Scénarios liés** : S1 · **Voir aussi** : [design.md](../../conception/design.md), [ecrans.md](../../produit/ecrans.md), [003](../003-donnees-demo-et-api/spec.md), [004](../004-disposition-boutique/spec.md)
 
 ## Objectif
 Remplacer l'accueil provisoire par une vraie page de vente : un bandeau de mise en avant, des raccourcis, les gammes, et une grille des pagnes à découvrir, alimentés par le catalogue.

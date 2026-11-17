@@ -1,7 +1,7 @@
 # 006 – Photos réelles de démonstration
 
 **Code** : `PHO` · **Statut** : validée (délégation) · **Branche** : `feat/demo-photos`
-**Voir aussi** : [003](../003-donnees-demo-et-api/spec.md), [design.md](../../design.md), [3d.md](../../3d.md)
+**Voir aussi** : [003](../003-donnees-demo-et-api/spec.md), [design.md](../../conception/design.md), [3d.md](../../conception/3d.md)
 
 ## Objectif
 Remplacer les motifs générés par de **vraies photos de pagnes** dans la démonstration, sans casser le projet quand aucune photo n'est présente, et préparer le traitement que la gérante utilisera pour ses propres photos.

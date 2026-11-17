@@ -3,7 +3,7 @@
 > **Statut : proposition révisée.** Décidé : PostgreSQL autohébergé, Nuxt. Les points « à vérifier » doivent être confirmés avant de s'engager.
 
 ## Contraintes qui guident le choix
-- Multi-boutiques avec isolation stricte (voir [plateforme.md](plateforme.md))
+- Multi-boutiques avec isolation stricte (voir [plateforme.md](../produit/plateforme.md))
 - Paiement UEMOA : Mobile Money et cartes, un compte marchand par boutique
 - Un seul mainteneur, profil senior : l'autohébergement est assumé
 - Design libre, inspiré de Vlisco ; 3D en phase 2

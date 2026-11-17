@@ -22,7 +22,7 @@ docs/specs/
 - Numérotation à trois chiffres, dans l'ordre de création, jamais réutilisée.
 - Nom court, en minuscules, séparé par des tirets.
 - **Une spec = une branche** : `feat/<nom>` (ou `fix/<nom>`). Le nom de la branche reprend celui de la spec.
-- Les scénarios génériques de [scenarios.md](../scenarios.md) ne sont pas recopiés : la spec les **référence** par leur identifiant (S4, A3…) et ajoute seulement ce qu'ils ne disent pas.
+- Les scénarios génériques de [scenarios.md](../produit/scenarios.md) ne sont pas recopiés : la spec les **référence** par leur identifiant (S4, A3…) et ajoute seulement ce qu'ils ne disent pas.
 
 ## Cycle de vie d'une spec
 | Statut | Signification |
