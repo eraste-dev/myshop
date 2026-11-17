@@ -5,9 +5,9 @@ Plateforme multi-boutiques de vente de pagnes, inspirée de Vlisco. Première bo
 Échanges et documentation en **français**.
 
 ## État du projet
-- Phase actuelle : **frontends d'abord, sur mocks**, pour valider les écrans (voir `docs/frontend-mocks.md`).
+- Phase actuelle : **frontends d'abord, sur mocks**, pour valider les écrans (voir `docs/conception/frontend-mocks.md`).
 - **Backend : langage en suspens** (TypeScript + Hono, Go ou Python). Ne pas le choisir ni écrire de code backend sans accord.
-- Stack front décidée : Nuxt + TypeScript + Tailwind, monorepo pnpm. PostgreSQL autohébergé prévu. Détails dans `docs/stack.md`.
+- Stack front décidée : Nuxt + TypeScript + Tailwind, monorepo pnpm. PostgreSQL autohébergé prévu. Détails dans `docs/conception/stack.md`.
 
 ## Structure
 ```
@@ -23,6 +23,7 @@ src/
     design/                jetons de design (tokens.css)
     types/                 tous les types et interfaces (aucun code exécutable)
     shared/                règles métier communes (mesure, validation de requête)
+    photos/                traitement des photos de pagnes (sharp, manifeste)
     mocks/                 données et simulation d'API
 ```
 **La racine du monorepo pnpm est `src/`** : `src/package.json`, `src/pnpm-workspace.yaml` et `src/pnpm-lock.yaml` y vivent. À la racine du dépôt restent `docs/`, `infra/`, `.gitignore` et ce fichier. **Demander avant de créer un fichier à un nouvel emplacement.** Chaque app est organisée par fonctionnalité (catalog, product, cart, checkout…).
@@ -36,6 +37,7 @@ just client           vitrine sur http://localhost:51001
 just dev all          lance toutes les applications qui existent
 just build [app]      construction de production
 just preview [app]    version de production (construit si besoin)
+just photos           traite les photos de docs/references/pagnes (WebP, couleur, manifeste)
 just test             tests de tous les paquets
 just typecheck        contrôle de types
 just check            tests + contrôle de types
@@ -46,7 +48,7 @@ Ports : `client` 51001, `client-admin` 51002, `client-platform` 51003, `backend`
 **Règle just** : les arguments passent par `set positional-arguments` (`"$1"`, `"$@"`), jamais interpolés dans la ligne de commande (injection). Sans just : `cd src && pnpm test`, `pnpm typecheck`.
 
 ## Méthode : SDD + TDD
-1. **Spec d'abord** : `docs/specs/<n>-<nom>/` (spec, plan, tâches). L'utilisateur la valide **avant** le code. Les scénarios de `docs/scenarios.md` (S*, A*, P*) servent de critères d'acceptation.
+1. **Spec d'abord** : `docs/specs/<n>-<nom>/` (spec, plan, tâches). L'utilisateur la valide **avant** le code. Les scénarios de `docs/produit/scenarios.md` (S*, A*, P*) servent de critères d'acceptation.
 2. **Tests avant le code** : RED, puis GREEN, puis refactor. Nommer les tests avec l'identifiant du scénario.
 3. Couverture ≥ 80 %. Parcours critiques en Playwright.
 4. Revue du code après écriture ; revue sécurité pour paiement, authentification, saisies et isolation.
@@ -77,7 +79,7 @@ Ports : `client` 51001, `client-admin` 51002, `client-platform` 51003, `backend`
 - La livraison se gère hors application en v1 (statuts « en cours » et « livrée » seulement).
 
 ## Design
-- Références : `docs/design.md`. Captures dans `docs/references/` : **usage interne, ignorées par git, ne jamais publier**.
+- Références : `docs/conception/design.md`. Captures dans `docs/references/` : **usage interne, ignorées par git, ne jamais publier**.
 - **Aucune couleur ni police codée en dur** : tout passe par `src/packages/design/tokens.css` (thème par boutique).
 - Sobre : fond blanc cassé, texte noir, boutons noirs en majuscules aux angles droits ; les imprimés portent la couleur.
 - Mobile d'abord, léger, accessible (contrastes, clavier). Les polices de Vlisco sont sous licence : utiliser Newsreader et Jost.
@@ -86,13 +88,14 @@ Ports : `client` 51001, `client-admin` 51002, `client-platform` 51003, `backend`
 ## Documents
 | Fichier | Sujet |
 |---|---|
-| `docs/mvp.md` | Périmètre du MVP, modes de vente, statuts |
-| `docs/scenarios.md` | Scénarios client, gérante, administrateur |
-| `docs/ecrans.md` | Écrans des trois applications |
-| `docs/filtres.md` | Attributs produit et filtres |
-| `docs/design.md` | Références Vlisco, décisions de design |
-| `docs/stack.md` | Stack, architecture, risques |
-| `docs/plateforme.md` | Vision multi-boutiques et phases |
-| `docs/frontend-mocks.md` | Stratégie mocks |
-| `docs/3d.md` | Visualiseur 3D (phase 2) |
-| `docs/questions-ouvertes.md` | Décisions prises et à prendre |
+| `docs/guide/conventions.md`, `docs/guide/erreurs-a-eviter.md`, `docs/guide/a-faire.md` | **À relire avant chaque tâche** : conventions, erreurs passées, listes de contrôle |
+| `docs/produit/mvp.md` | Périmètre du MVP, modes de vente, statuts |
+| `docs/produit/scenarios.md` | Scénarios client, gérante, administrateur |
+| `docs/produit/ecrans.md` | Écrans des trois applications |
+| `docs/produit/filtres.md` | Attributs produit et filtres |
+| `docs/conception/design.md` | Références Vlisco, décisions de design |
+| `docs/conception/stack.md` | Stack, architecture, risques |
+| `docs/produit/plateforme.md` | Vision multi-boutiques et phases |
+| `docs/conception/frontend-mocks.md` | Stratégie mocks |
+| `docs/conception/3d.md` | Visualiseur 3D (phase 2) |
+| `docs/produit/questions-ouvertes.md` | Décisions prises et à prendre |

@@ -1,7 +1,7 @@
 # 002 – Socle de la vitrine (`src/client`)
 
 **Code** : `CLI` · **Statut** : validée (délégation) · **Branche** : `feat/client-scaffold`
-**Voir aussi** : [stack.md](../../stack.md), [design.md](../../design.md)
+**Voir aussi** : [stack.md](../../conception/stack.md), [design.md](../../conception/design.md)
 
 ## Objectif
 Disposer d'une application Nuxt `src/client` qui démarre, se construit, applique les jetons de design partagés et sert une page d'accueil vide, sur laquelle les écrans viendront s'ajouter.
@@ -31,7 +31,7 @@ En-tête, pied de page, pages produit (specs suivantes). Client d'API et mocks. 
 
 ## Décisions
 - Titre par défaut du MVP : « Boutique de pagnes » (remplacé par le nom de la boutique quand le client d'API existera).
-- Pas de bibliothèque de composants pour la vitrine : composants maison sur Tailwind, primitives Reka UI ajoutées au besoin (voir [stack.md](../../stack.md)).
+- Pas de bibliothèque de composants pour la vitrine : composants maison sur Tailwind, primitives Reka UI ajoutées au besoin (voir [stack.md](../../conception/stack.md)).
 
 ## Traçabilité
 Voir `tasks.md`, mis à jour au fil de l'implémentation.

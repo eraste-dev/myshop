@@ -5,8 +5,8 @@ Construire les trois frontends complets, branchés sur des **données simulées*
 
 ## Périmètre
 - Les trois applications : `client`, `client-admin`, `client-platform` (voir [stack.md](stack.md))
-- Tous les écrans listés dans [ecrans.md](ecrans.md)
-- Les scénarios de [scenarios.md](scenarios.md) jouables de bout en bout sur les mocks
+- Tous les écrans listés dans [ecrans.md](../produit/ecrans.md)
+- Les scénarios de [scenarios.md](../produit/scenarios.md) jouables de bout en bout sur les mocks
 - Aucun backend, aucune base de données, aucun vrai paiement
 
 ## Approche
@@ -16,7 +16,7 @@ Les écrans n'appellent jamais directement les mocks. Ils passent par un **clien
 
 ### Mocks au niveau HTTP, servis par Nitro
 - Les écrans font de vraies requêtes HTTP vers `/api/...`, comme avec le futur backend.
-- Les routes simulées sont des **routes serveur Nitro** de chaque application (`server/api/`). Elles répondent aussi bien au rendu serveur qu'au navigateur. **MSW n'a pas été retenu** : il n'intercepte que le navigateur, donc pas les appels du rendu serveur de la vitrine (voir [spec 003](specs/003-donnees-demo-et-api/spec.md), décision D1).
+- Les routes simulées sont des **routes serveur Nitro** de chaque application (`server/api/`). Elles répondent aussi bien au rendu serveur qu'au navigateur. **MSW n'a pas été retenu** : il n'intercepte que le navigateur, donc pas les appels du rendu serveur de la vitrine (voir [spec 003](../specs/003-donnees-demo-et-api/spec.md), décision D1).
 - La **logique de simulation** (filtres, tri, facettes, réponses 200, 400, 404) vit dans le paquet `@shop-pagne/mocks`, en fonctions pures testées, et les routes ne font que la brancher. Les autres applications la réutilisent.
 - Données de démonstration cohérentes : 14 dessins, 43 coloris, pièces et mesures, ruptures et stocks bas. Les photos sont des **motifs SVG générés**, servis par URL.
 - Un paramètre `?scenario=error` ou `?scenario=slow` force une panne ou une lenteur, pour valider les états d'erreur et de chargement.
@@ -48,12 +48,12 @@ Un sélecteur de scénario de démonstration (réservé au mode mock) permet de 
 | Risque | Réponse |
 |---|---|
 | Les mocks divergent du vrai backend | Contrat de types partagé, mocks limités au contrat, génération OpenAPI dès que le backend est choisi |
-| On valide des écrans qui masquent la complexité réelle (paiement, stock) | Scénarios d'échec simulés dès le départ, règles métier listées dans [scenarios.md](scenarios.md) |
+| On valide des écrans qui masquent la complexité réelle (paiement, stock) | Scénarios d'échec simulés dès le départ, règles métier listées dans [scenarios.md](../produit/scenarios.md) |
 | Dérive visuelle sans références | Fixer les références de design (Vlisco, Chariow) avant de construire les écrans |
 | Code jetable | Les écrans, composants et jetons de design sont du vrai code conservé. Seuls les mocks sont remplacés. |
 
 ## Définition de « terminé » pour cette étape
-- Tous les écrans de [ecrans.md](ecrans.md) existent et sont navigables
+- Tous les écrans de [ecrans.md](../produit/ecrans.md) existent et sont navigables
 - Les scénarios S1 à S16 et A1 à A9 sont jouables sur les mocks
 - La gérante a validé les parcours sur son téléphone
 - La liste des besoins backend (opérations et règles) est déduite des écrans et prête pour choisir le langage

@@ -1,9 +1,9 @@
 /*
  * Jetons de design partagés.
  * Aucune couleur ni police codée en dur dans les composants : tout passe par ces jetons,
- * pour que chaque boutique puisse surcharger son thème (voir docs/plateforme.md).
+ * pour que chaque boutique puisse surcharger son thème (voir docs/produit/plateforme.md).
  *
- * Valeurs de départ inspirées de docs/design.md. Le fond et l'encre sont approximatifs :
+ * Valeurs de départ inspirées de docs/conception/design.md. Le fond et l'encre sont approximatifs :
  * à affiner sur maquette.
  */
 @theme {

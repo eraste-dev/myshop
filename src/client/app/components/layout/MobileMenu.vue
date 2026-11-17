@@ -73,7 +73,7 @@ function search(location: string): void {
             <li v-for="item in items" :key="item.to" class="border-b border-line">
               <NuxtLink
                 :to="item.to"
-                class="block py-4 font-display text-3xl tracking-[var(--tracking-display)] text-ink"
+                class="block py-4 font-display text-3xl tracking-display text-ink"
                 @click="close"
               >
                 {{ item.label }}

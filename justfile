@@ -48,6 +48,10 @@ build app="client":
 preview app="client":
     bash {{ scripts }}/preview.sh "$1"
 
+# Traite les photos de pagnes de docs/references/pagnes (WebP, couleur, manifeste)
+photos:
+    bash {{ scripts }}/photos.sh
+
 # Tests de tous les paquets
 test:
     bash {{ scripts }}/check.sh test

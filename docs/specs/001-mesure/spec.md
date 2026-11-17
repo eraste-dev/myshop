@@ -1,7 +1,7 @@
 # 001 – Vente à la mesure
 
 **Code** : `MES` · **Statut** : validée (décisions tranchées par délégation du propriétaire) · **Branche** : `feat/measure-pricing` (code initial dans `src/packages/shared/src/measure.ts`, spec rétroactive)
-**Scénarios liés** : S4, S5, S6, S7, A3 ([scenarios.md](../../scenarios.md)) · **Voir aussi** : « Modes de vente » dans [mvp.md](../../mvp.md)
+**Scénarios liés** : S4, S5, S6, S7, A3 ([scenarios.md](../../produit/scenarios.md)) · **Voir aussi** : « Modes de vente » dans [mvp.md](../../produit/mvp.md)
 
 ## Objectif
 Permettre à une cliente d'acheter un pagne **par la longueur de son choix**, dans des limites configurées par la gérante, avec un prix calculé exactement et un stock en longueur qui ne peut pas être dépassé.

@@ -20,7 +20,7 @@ Chaque attribut a :
 
 Un **modèle d'attributs « pagne »** est fourni par défaut. La gérante peut le modifier.
 
-## Ce que fait Vlisco (observé, voir [design.md](design.md))
+## Ce que fait Vlisco (observé, voir [design.md](../conception/design.md))
 Filtres : type de produit (gamme), **longueur de pièce**, couleur principale, **couleur secondaire**, style de dessin, type de tissu, embellissement, offre. Chaque valeur affiche son nombre de dessins. Vocabulaire du style de dessin : objet, géométrique, botanique, décoratif, ornemental, textures, nature, floral.
 
 Ajouts à notre liste ci-dessous, déduits de cette observation :

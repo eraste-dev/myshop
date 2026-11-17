@@ -1,9 +1,31 @@
 /** Construction des dessins de démonstration à partir de leurs descriptions compactes (voir `seeds.ts`). */
-import type { Badge, Colorway, Design, DesignSeed, MeasureConfig, PatternSpec, PieceOption } from '@shop-pagne/types'
+import type {
+  Badge,
+  ColorName,
+  Colorway,
+  Design,
+  DesignSeed,
+  MeasureConfig,
+  PatternSpec,
+  PhotoEntry,
+  PhotoManifest,
+  PieceOption,
+} from '@shop-pagne/types'
+import photoManifest from './photos.json'
 import { PALETTES, SEEDS } from './seeds'
 
 /** Niveau de stock d'un coloris de démonstration : normal, bas ou en rupture. */
 type StockLevel = 'ok' | 'low' | 'out'
+
+/** D'où viennent le nom de couleur et les images d'un coloris : un motif généré, ou une photo traitée. */
+interface ColorwaySource {
+  /** Nom de la couleur dominante du coloris. */
+  readonly colorName: ColorName
+  /** Adresse de la pastille du sélecteur de coloris. */
+  readonly swatch: string
+  /** Adresses des photos : carte, puis détail. */
+  readonly images: readonly string[]
+}
 
 /** Répartition déterministe des niveaux de stock, pour avoir des ruptures et des stocks bas dans la démonstration. */
 const STOCK_LEVELS: readonly StockLevel[] = ['ok', 'ok', 'low', 'ok', 'out', 'ok', 'low', 'ok', 'ok', 'out']
@@ -22,6 +44,12 @@ const DEFAULT_MEASURE_MAX = 6
 
 /** Pas de découpe des produits à la mesure, en yards. */
 const DEFAULT_MEASURE_STEP = 0.5
+
+/** Nombre de photos regroupées par dessin ; le reste forme un dernier dessin de 1 ou 2 coloris (spec 006, PHO-R8). */
+const PHOTOS_PER_DESIGN = 3
+
+/** Dossier public où le script de traitement dépose les photos (voir `@shop-pagne/photos`). */
+const PHOTO_URL_PREFIX = '/demo/pagnes'
 
 /** Arrondit une valeur au multiple le plus proche d'un pas. */
 const roundTo = (value: number, step: number): number => Math.round(value / step) * step
@@ -87,8 +115,22 @@ const imageUrl = (colorwayId: string, zoom?: number): string =>
 const colorwayId = (seed: DesignSeed, colorIndex: number): string =>
   `${seed.id}-${String(colorIndex + 1).padStart(3, '0')}`
 
+/** Sources d'un dessin à motifs générés : une par couleur de sa description. */
+function generatedSources(seed: DesignSeed): readonly ColorwaySource[] {
+  return seed.colors.map((colorName, colorIndex) => {
+    const id = colorwayId(seed, colorIndex)
+    return { colorName, swatch: imageUrl(id), images: [imageUrl(id), imageUrl(id, 2)] }
+  })
+}
+
+/** Source d'un coloris issu d'une photo traitée : adresses statiques de la carte et du détail. */
+function photoSource(photo: PhotoEntry): ColorwaySource {
+  const card = `${PHOTO_URL_PREFIX}/${photo.id}.webp`
+  return { colorName: photo.color, swatch: card, images: [card, `${PHOTO_URL_PREFIX}/${photo.id}-zoom.webp`] }
+}
+
 /** Construit un coloris de démonstration. */
-function buildColorway(seed: DesignSeed, designIndex: number, colorIndex: number): Colorway {
+function buildColorway(seed: DesignSeed, designIndex: number, colorIndex: number, source: ColorwaySource): Colorway {
   const id = colorwayId(seed, colorIndex)
   const level = stockLevel(designIndex, colorIndex)
   const isMeasure = seed.sale === 'measure'
@@ -96,9 +138,9 @@ function buildColorway(seed: DesignSeed, designIndex: number, colorIndex: number
   return {
     id,
     code: String(colorIndex + 1).padStart(3, '0'),
-    colorName: seed.colors[colorIndex] as DesignSeed['colors'][number],
-    swatchImage: imageUrl(id),
-    images: [imageUrl(id), imageUrl(id, 2)],
+    colorName: source.colorName,
+    swatchImage: source.swatch,
+    images: source.images,
     saleMode: seed.sale,
     pieces: isMeasure ? [] : buildPieces(seed, id, level),
     measure: isMeasure ? buildMeasure(seed, level) : null,
@@ -113,8 +155,8 @@ function describe(seed: DesignSeed): string {
   return `Pagne ${seed.range} « ${seed.name} » aux motifs ${styles}. Coton ${finish}, couleurs franches et tenue durable.`
 }
 
-/** Construit un dessin de démonstration complet, avec tous ses coloris. */
-function buildDesign(seed: DesignSeed, designIndex: number): Design {
+/** Construit un dessin de démonstration complet, avec un coloris par source. */
+function buildDesign(seed: DesignSeed, designIndex: number, sources: readonly ColorwaySource[]): Design {
   return {
     id: seed.id,
     reference: seed.reference,
@@ -124,14 +166,38 @@ function buildDesign(seed: DesignSeed, designIndex: number): Design {
     description: describe(seed),
     careAdvice: 'Lavage à la main ou en machine à 30 °C, couleurs séparées. Repassage à l’envers.',
     attributes: { style: seed.style, finish: [seed.finish] },
-    colorways: seed.colors.map((_, colorIndex) => buildColorway(seed, designIndex, colorIndex)),
+    colorways: sources.map((source, colorIndex) => buildColorway(seed, designIndex, colorIndex, source)),
   }
 }
 
-/** Les dessins de démonstration : 14 dessins et 43 coloris, avec ruptures, stocks bas et nouveautés. */
-export const DEMO_DESIGNS: readonly Design[] = SEEDS.map(buildDesign)
+/** Découpe une liste en groupes consécutifs de `size` éléments ; le dernier groupe peut être plus court. */
+function chunk<T>(items: readonly T[], size: number): readonly (readonly T[])[] {
+  return Array.from({ length: Math.ceil(items.length / size) }, (_, i) => items.slice(i * size, (i + 1) * size))
+}
 
-/** Description du motif de chaque coloris de démonstration, indexée par identifiant de coloris. */
+/**
+ * Construit le catalogue de démonstration. Avec des photos dans le manifeste, elles sont regroupées par trois
+ * (le reste formant un dernier dessin) et se partagent, dans l'ordre, les descriptions de dessins existantes ;
+ * les photos en trop sont ignorées. Sans photo, on garde le catalogue de motifs générés : le projet démarre
+ * toujours. Ne modifie pas le manifeste. Voir spec 006, PHO-R8 et PHO-R9.
+ *
+ * @param manifest - Manifeste des photos traitées.
+ * @returns Les dessins de démonstration, avec tous leurs coloris.
+ */
+export function buildDemoDesigns(manifest: PhotoManifest): readonly Design[] {
+  if (manifest.photos.length === 0) {
+    return SEEDS.map((seed, designIndex) => buildDesign(seed, designIndex, generatedSources(seed)))
+  }
+
+  return chunk(manifest.photos, PHOTOS_PER_DESIGN)
+    .slice(0, SEEDS.length)
+    .map((group, designIndex) => buildDesign(SEEDS[designIndex] as DesignSeed, designIndex, group.map(photoSource)))
+}
+
+/** Les dessins de démonstration : celui des photos traitées s'il y en a, sinon 14 dessins et 43 coloris de motifs générés. */
+export const DEMO_DESIGNS: readonly Design[] = buildDemoDesigns(photoManifest as PhotoManifest)
+
+/** Description du motif de chaque coloris de motifs générés, indexée par identifiant de coloris. */
 const PATTERN_SPECS: ReadonlyMap<string, PatternSpec> = new Map(
   SEEDS.flatMap((seed) =>
     seed.colors.map((colorName, colorIndex): [string, PatternSpec] => {
@@ -142,7 +208,7 @@ const PATTERN_SPECS: ReadonlyMap<string, PatternSpec> = new Map(
 )
 
 /**
- * Cherche la description du motif d'un coloris de démonstration.
+ * Cherche la description du motif d'un coloris de motifs générés.
  *
  * @param colorwayId - Identifiant du coloris.
  * @returns La description du motif, ou `undefined` si le coloris est inconnu.

@@ -1,7 +1,7 @@
 # 003 – Données de démonstration et API du catalogue
 
 **Code** : `MOC` · **Statut** : validée (délégation) · **Branche** : `feat/demo-data-and-api`
-**Scénarios liés** : S1, S2, S6 · **Voir aussi** : [frontend-mocks.md](../../frontend-mocks.md), [filtres.md](../../filtres.md), [001-mesure](../001-mesure/spec.md)
+**Scénarios liés** : S1, S2, S6 · **Voir aussi** : [frontend-mocks.md](../../conception/frontend-mocks.md), [filtres.md](../../produit/filtres.md), [001-mesure](../001-mesure/spec.md)
 
 ## Objectif
 Fournir à la vitrine un **catalogue de démonstration crédible** et une **API HTTP simulée** (liste filtrée et triée, fiche d'un dessin), pour construire et valider les écrans sans backend. Le backend réel remplacera la simulation sans modifier les écrans.

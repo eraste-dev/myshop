@@ -45,7 +45,7 @@ require_app() {
   is_known_app "$app" || die "application inconnue : « $app ». Valeurs possibles : ${APPS[*]}."
 
   if [ "$app" = "backend" ]; then
-    die "le backend n'existe pas encore : son langage n'est pas choisi (voir docs/stack.md)."
+    die "le backend n'existe pas encore : son langage n'est pas choisi (voir docs/conception/stack.md)."
   fi
   app_exists "$app" || die "l'application « $app » n'existe pas encore."
 }

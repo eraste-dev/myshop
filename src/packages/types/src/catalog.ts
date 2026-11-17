@@ -1,6 +1,6 @@
 /**
  * Types du catalogue : produits, coloris, modes de vente et listes filtrées.
- * Voir docs/mvp.md (« Modes de vente ») et docs/filtres.md.
+ * Voir docs/produit/mvp.md (« Modes de vente ») et docs/produit/filtres.md.
  */
 
 /** Montant en francs CFA (XOF), toujours un entier : le XOF n'a pas de centimes. */
